@@ -35,7 +35,28 @@ class ChaoShanStore:  #写一个store类
         else:
             print("❌ 钱不够了，去赚点钱再来吧!")
 
+    #烹饪逻辑
+    #在潮汕小吃店里，我们要把“原材料”变成“商品”
+    #逻辑规则：制作一份“腐乳鸡翅”,需要消耗1份鸡翅和1份腐乳
+    #检查机制:如果库存里没有足够的材料，就不能开火
+    def cook(self,dish_name):
+        #定义配方：制作腐乳鸡翅
+        if dish_name == "腐乳鸡翅":
+            #检查材料是否足够
+            wings = self.inventory.get("鸡翅",0)
+            fermented_tofu = self.inventory.get("腐乳",0)
 
+            if wings >= 1 and fermented_tofu >= 1:
+
+                #消耗食材
+                self.inventory["鸡翅"]-=1
+                self.inventory["腐乳"]-=1
+                print(f"滋啦！ 一份香喷喷的[{dish_name}]出炉了")
+                return True     #return True表示制作成功
+
+            else:
+                print(f"NO! 食材不足，做不成[{dish_name}]")
+                return False
 
 #--- 第二部分：真正开始玩（实例化）---
 
@@ -46,6 +67,11 @@ my_shop = ChaoShanStore("粿条大王")
 my_shop.buy_ingredient("鸡翅",5,10)
 
 #查看结果
-my_shop.show_status()
+# my_shop.show_status()
 
+# 测试1：买了腐乳再做鸡翅
+# my_shop.buy_ingredient("腐乳",2,5)
+# my_shop.cook("腐乳鸡翅")
 
+# 测试2：没买腐乳直接做鸡翅
+# my_shop.cook("腐乳鸡翅")
