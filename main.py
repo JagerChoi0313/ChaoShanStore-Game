@@ -58,6 +58,18 @@ class ChaoShanStore:  #写一个store类
                 print(f"NO! 食材不足，做不成[{dish_name}]")
                 return False
 
+    def sell(self,dish_name,price):
+        print(f"\n🔔 [前台]：有客人点了一份[{dish_name}]")
+
+        #调用之前的烹饪逻辑
+        #如果cook返回True，说明饭做好了可以收钱
+        if self.cook(dish_name):
+            self.money += price
+            self.reputation += 2    #卖出一份，品牌声誉加2
+            print(f"[系统]：收银成功！收入{price}元")
+            print(f"[系统]：品牌声望提升了！")
+        else:
+            print(f"[前台]:不好意思，食材不够，没法卖")
 #--- 第二部分：真正开始玩（实例化）---
 
 #实例化：找出一个对象
@@ -66,8 +78,11 @@ my_shop = ChaoShanStore("粿条大王")
 #调用方法：让这个对象去买东西
 my_shop.buy_ingredient("鸡翅",5,10)
 
-#查看结果
-# my_shop.show_status()
+my_shop.sell("腐乳鸡翅",15)
+my_shop.sell("腐乳鸡翅",15)
+
+# 查看结果
+my_shop.show_status()
 
 # 测试1：买了腐乳再做鸡翅
 # my_shop.buy_ingredient("腐乳",2,5)
